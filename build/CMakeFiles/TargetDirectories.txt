@@ -1,0 +1,3 @@
+C:/Users/vinic/Desktop/GameIsometric/build/CMakeFiles/game.dir
+C:/Users/vinic/Desktop/GameIsometric/build/CMakeFiles/edit_cache.dir
+C:/Users/vinic/Desktop/GameIsometric/build/CMakeFiles/rebuild_cache.dir
