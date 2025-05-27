@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/vinic/Desktop/GameIsometric/build",
-  "command": "C:\\MinGW\\bin\\g++.exe  @CMakeFiles/game.dir/includes_CXX.rsp -g -std=gnu++1z -o CMakeFiles\\game.dir\\src\\main.cpp.obj -c C:\\Users\\vinic\\Desktop\\GameIsometric\\src\\main.cpp",
-  "file": "C:/Users/vinic/Desktop/GameIsometric/src/main.cpp",
-  "output": "CMakeFiles/game.dir/src/main.cpp.obj"
-}
-]

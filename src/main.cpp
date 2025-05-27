@@ -1,13 +1,8 @@
-#include "raylib.h"
+#include "Game.h"
 
-int main() {
-    InitWindow(800, 450, "Raylib Test");
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Raylib is working!", 190, 200, 20, LIGHTGRAY);
-        EndDrawing();
-    }
-    CloseWindow();
+int main(){
+    Game game(800, 600, "Jogo com Sistema de Estados");
+    game.Run();
+
     return 0;
 }
