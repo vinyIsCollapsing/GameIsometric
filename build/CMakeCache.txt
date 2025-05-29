@@ -224,6 +224,9 @@ RaylibCrossPlatformTemplate_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 RaylibCrossPlatformTemplate_SOURCE_DIR:STATIC=/home/v1nnye/Desktop/GameIsometric
 
+//Pula o menu e vai direto para o jogo
+SKIP_MENU:BOOL=OFF
+
 //Path to a library.
 pkgcfg_lib_PC_RAYLIB_raylib:FILEPATH=/usr/local/lib/libraylib.so
 

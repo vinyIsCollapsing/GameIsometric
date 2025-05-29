@@ -2,10 +2,15 @@
 #include "Game.h"
 
 // Constructors
-Game::Game(int width, int height, const char* title){
+Game::Game(int width, int height, const char* title) {
     InitWindow(width, height, title);
     SetTargetFPS(60);
-    // WindowShouldCloseFlag = false;
+
+    #ifdef SKIP_MENU
+        state = GameState::PLAYING;
+    #else
+        state = GameState::MENU;
+    #endif
 }
 
 Game::~Game(){

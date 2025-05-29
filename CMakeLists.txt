@@ -23,6 +23,12 @@ endif()
 # Pega todos os arquivos .cpp do src/
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
+option(SKIP_MENU "Pula o menu e vai direto para o jogo" OFF)
+
+if(SKIP_MENU)
+    add_definitions(-DSKIP_MENU)
+endif()
+
 # Cria o executável
 add_executable(game ${SOURCES})
 target_link_libraries(game ${EXTRA_LIBS})
