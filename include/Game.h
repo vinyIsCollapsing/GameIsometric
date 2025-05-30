@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Map.h"
+
 enum class GameState {MENU, PLAYING, PAUSED};
 
 class Game{
@@ -12,6 +14,7 @@ class Game{
 
     private:
         GameState state;
+        Map *map;
         bool WindowShouldCloseFlag;
         
         void Update();

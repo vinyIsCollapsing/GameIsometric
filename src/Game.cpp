@@ -1,10 +1,13 @@
 #include "raylib.h"
 #include "Game.h"
+#include "Map.h"
 
 // Constructors
 Game::Game(int width, int height, const char* title) {
     InitWindow(width, height, title);
     SetTargetFPS(60);
+
+    map = new Map();  // Cria o mapa após InitWindow()!
 
     #ifdef SKIP_MENU
         state = GameState::PLAYING;
@@ -14,6 +17,7 @@ Game::Game(int width, int height, const char* title) {
 }
 
 Game::~Game(){
+    delete map;  // libera a memória alocada
     CloseWindow();
 }
 
@@ -67,8 +71,9 @@ void Game::UpdatePlaying() {
 }
 
 void Game::DrawPlaying() {
-    DrawText("JOGO EM EXECUÇÃO", 280, 200, 30, DARKGREEN);
-    DrawText("Pressione P para pausar", 280, 250, 20, GRAY);
+    // DrawText("JOGO EM EXECUÇÃO", 280, 200, 30, DARKGREEN);
+    // DrawText("Pressione P para pausar", 280, 250, 20, GRAY);
+    map->Draw();
 }
 
 void Game::UpdatePaused() {

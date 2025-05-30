@@ -16,6 +16,7 @@ endif()
 
 # Linux (quando alternar futuramente)
 if (UNIX)
+    message("Compilando para Linux")
     find_package(raylib REQUIRED)
     set(EXTRA_LIBS raylib m pthread dl rt X11)
 endif()
