@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
-project(RaylibCrossPlatformTemplate)
+project(GameIsometric)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Adiciona os headers se tiver algo em include/
-include_directories(include)
+# Adiciona os headers
+include_directories(
+    include
+    include/entities
+)
 
 # Adiciona o Raylib manualmente (Windows)
 if (WIN32)
@@ -21,9 +24,10 @@ if (UNIX)
     set(EXTRA_LIBS raylib m pthread dl rt X11)
 endif()
 
-# Pega todos os arquivos .cpp do src/
+# Pega todos os arquivos .cpp no src/
 file(GLOB_RECURSE SOURCES src/*.cpp)
 
+# Opção para pular o menu
 option(SKIP_MENU "Pula o menu e vai direto para o jogo" OFF)
 
 if(SKIP_MENU)

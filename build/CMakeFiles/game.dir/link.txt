@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/game.dir/src/Game.cpp.o CMakeFiles/game.dir/src/Map.cpp.o CMakeFiles/game.dir/src/main.cpp.o -o game  -Wl,-rpath,/usr/local/lib /usr/local/lib/libraylib.so -lm -lpthread -ldl -lrt -lX11 -L/usr/local/lib -lraylib 

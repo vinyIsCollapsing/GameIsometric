@@ -8,6 +8,7 @@ Game::Game(int width, int height, const char* title) {
     SetTargetFPS(60);
 
     map = new Map();  // Cria o mapa após InitWindow()!
+    player = new Player({320.0f, 240.0f});
 
     #ifdef SKIP_MENU
         state = GameState::PLAYING;
@@ -18,6 +19,7 @@ Game::Game(int width, int height, const char* title) {
 
 Game::~Game(){
     delete map;  // libera a memória alocada
+    delete player;
     CloseWindow();
 }
 
@@ -67,13 +69,16 @@ void Game::DrawMenu() {
 void Game::UpdatePlaying() {
     if (IsKeyPressed(KEY_P)) {
         state = GameState::PAUSED;
-    }
+    }  
+    
+    player->Update();
 }
 
 void Game::DrawPlaying() {
     // DrawText("JOGO EM EXECUÇÃO", 280, 200, 30, DARKGREEN);
     // DrawText("Pressione P para pausar", 280, 250, 20, GRAY);
     map->Draw();
+    player->Draw();
 }
 
 void Game::UpdatePaused() {
