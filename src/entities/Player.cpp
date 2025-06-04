@@ -1,10 +1,11 @@
 #include "Player.h"
 #include "PlayerState.h"
 #include "raylib.h"
+#include "utils/IsometricUtils.h"
 
 Player::Player(Vector2 startPos){
     position = startPos; 
-    size = { 32.0f, 32.0f }; 
+    size = { 16.0f, 16.0f }; 
     color = BLUE;
      
     currentState = new IdleState();
@@ -20,7 +21,14 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-    DrawRectangleV(position, size, color);
+    Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
+
+    Vector2 isoPos = IsoToScreen(position, (float)tileWidth, (float)tileHeight);
+
+    isoPos.x += offset.x - (tileWidth / 2.0f);
+    isoPos.y += offset.y;
+
+    DrawRectangleV(isoPos, size, color);
 }
 
 void Player::ChangeState(PlayerState* newState) {
@@ -34,4 +42,11 @@ Vector2 Player::GetPosition() const {
 
 void Player::SetPosition(Vector2 newPos){
     this->position = newPos;
+}
+
+void Player::SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight) {
+    this->mapWidth = mapWidth;
+    this->mapHeight = mapHeight;
+    this->tileWidth = tileWidth;
+    this->tileHeight = tileHeight;
 }

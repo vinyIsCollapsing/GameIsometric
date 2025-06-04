@@ -16,10 +16,10 @@ void IdleState::Update(Player* player) {
 void RunningState::Update(Player* player) {
     // Lógica básica de movimento
     Vector2 pos = player->GetPosition();
-    if (IsKeyDown(KEY_RIGHT)) pos.x += 2.0f;
-    if (IsKeyDown(KEY_LEFT))  pos.x -= 2.0f;
-    if (IsKeyDown(KEY_UP))    pos.y -= 2.0f;
-    if (IsKeyDown(KEY_DOWN))  pos.y += 2.0f;
+    if (IsKeyDown(KEY_RIGHT)) pos.x += .20f;
+    if (IsKeyDown(KEY_LEFT))  pos.x -= .20f;
+    if (IsKeyDown(KEY_UP))    pos.y -= .20f;
+    if (IsKeyDown(KEY_DOWN))  pos.y += .20f;
 
     player->SetPosition(pos);
 

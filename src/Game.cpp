@@ -8,7 +8,14 @@ Game::Game(int width, int height, const char* title) {
     SetTargetFPS(60);
 
     map = new Map();  // Cria o mapa após InitWindow()!
-    player = new Player({320.0f, 240.0f});
+    player = new Player({0.0f, 0.0f});
+
+    player->SetMapDimensions(
+        map->GetWidth(),
+        map->GetHeight(),
+        map->GetTileWidth(),
+        map->GetTileHeight()
+    );
 
     #ifdef SKIP_MENU
         state = GameState::PLAYING;

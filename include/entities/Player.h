@@ -12,6 +12,11 @@ class Player{
         Color color;
 
         PlayerState* currentState;
+
+        int mapWidth;
+        int mapHeight;
+        int tileWidth;
+        int tileHeight;
     public:
         Player(Vector2 startPos);
         ~Player();
@@ -23,10 +28,11 @@ class Player{
         // Change state of player
         void ChangeState(PlayerState* newState);
 
-        // Getter
+        // Getter and Setter
         Vector2 GetPosition() const;
         void    SetPosition(Vector2 newPos);
 
+        void SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight);
 };
 
 #endif

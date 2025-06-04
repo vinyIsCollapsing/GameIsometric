@@ -7,6 +7,13 @@ class Map {
     public:
         Map();
         ~Map();
+
+        // Getters and Setters
+        int GetWidth() const;
+        int GetHeight() const;
+        int GetTileWidth() const;
+        int GetTileHeight() const;
+
         void Draw();
     private:
         const int mapWidth = 10;

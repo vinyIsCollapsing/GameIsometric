@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "utils/IsometricUtils.h"
 
 Map::Map() {
     img = LoadImage("../GameIsometric/assets/isometricblocks.png");
@@ -18,20 +19,23 @@ Map::~Map() {
     UnloadTexture(texture);
 }
 
-void Map::Draw() {
-    // Calcular o offset para centralizar o grid
-    int gridWidthPixels = (mapWidth + mapHeight) * (tileWidth / 2);
-    int gridHeightPixels = (mapWidth + mapHeight) * (tileHeight / 4);
+// Getters and Setters
+int Map::GetWidth()      const { return mapWidth; }
+int Map::GetHeight()     const { return mapHeight; }
+int Map::GetTileWidth()  const { return tileWidth; }
+int Map::GetTileHeight() const { return tileHeight; }
 
-    int offsetX = (GetScreenWidth() - gridWidthPixels);
-    int offsetY = (GetScreenHeight() - gridHeightPixels) / 2;
+void Map::Draw() {
+    Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
 
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            int screenX = (((x - y) * tileWidth / 2) - (tileWidth / 2)) + offsetX;
-            int screenY = ((x + y) * (tileHeight * 0.5) / 2) + offsetY;
+            Vector2 isoPos = IsoToScreen({ (float)x, (float)y }, tileWidth, tileHeight);
 
-            DrawTextureRec(texture, sourceRect, { (float)screenX, (float)screenY }, WHITE);
+            isoPos.x += offset.x - (tileWidth / 2.0f);
+            isoPos.y += offset.y;
+
+            DrawTextureRec(texture, sourceRect, isoPos, WHITE);
         }
     }
 }
