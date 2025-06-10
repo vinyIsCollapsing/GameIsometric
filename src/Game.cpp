@@ -1,4 +1,5 @@
 #include "raylib.h"
+
 #include "Game.h"
 #include "Map.h"
 
@@ -7,6 +8,7 @@ Game::Game(int width, int height, const char* title) {
     InitWindow(width, height, title);
     SetTargetFPS(60);
 
+    renderer = new Renderer(320, 240, width, height);
     map = new Map();  // Cria o mapa após InitWindow()!
     player = new Player({0.0f, 0.0f});
 
@@ -27,6 +29,7 @@ Game::Game(int width, int height, const char* title) {
 Game::~Game(){
     delete map;  // libera a memória alocada
     delete player;
+    delete renderer;
     CloseWindow();
 }
 
@@ -50,7 +53,9 @@ void Game::Update(){
     }
 }
 void Game::Draw(){
-    BeginDrawing();
+    // 1. Comece a desenhar no RenderTexture (resolução interna)
+    renderer->BeginUpscaleDraw();
+
     ClearBackground(RAYWHITE);
     
     switch (state) {
@@ -59,7 +64,11 @@ void Game::Draw(){
         case GameState::PAUSED:  DrawPaused(); break;
     }
     
-    EndDrawing();
+    // 2. Finalize o desenho interno
+    renderer->EndUpscaleDraw();
+
+    // 3. Desenhe o RenderTexture ampliado na tela real
+    renderer->DrawUpscaled();
 }
 
 void Game::UpdateMenu() {

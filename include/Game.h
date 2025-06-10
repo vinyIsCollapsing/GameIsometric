@@ -3,6 +3,7 @@
 
 #include "Map.h"
 #include "Player.h"
+#include "renderer/Renderer.h"
 
 enum class GameState {MENU, PLAYING, PAUSED};
 
@@ -16,6 +17,7 @@ class Game{
     private:
         GameState state;
         Map *map;
+        Renderer *renderer;
         bool WindowShouldCloseFlag;
 
         // Entities
