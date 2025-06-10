@@ -39,7 +39,7 @@ void RunningState::Update(Player* player) {
     }
 
     // Calcular magnitude antes do ajuste
-    float magBefore = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
+    // float magBefore = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
 
     // Ajuste apenas para diagonais
     if (moveDir.x != 0.0f && moveDir.y != 0.0f) {
@@ -48,12 +48,12 @@ void RunningState::Update(Player* player) {
     }
 
     // Calcular magnitude depois do ajuste
-    float magAfter = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
+    // float magAfter = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
 
     // Debug: imprimir as magnitudes
-    if (magBefore != 0){
-        printf("Magnitude antes: %.4f | depois: %.4f\n", magBefore, magAfter);
-    }
+    // if (magBefore != 0){
+    //     printf("Magnitude antes: %.4f | depois: %.4f\n", magBefore, magAfter);
+    // }
     
 
     Vector2 pos = player->GetPosition();
