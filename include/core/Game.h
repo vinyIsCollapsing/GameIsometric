@@ -4,6 +4,7 @@
 #include "world/Map.h"
 #include "entities/Player.h"
 #include "renderer/Renderer.h"
+#include "core/CameraController.h"
 
 enum class GameState {MENU, PLAYING, PAUSED};
 
@@ -18,6 +19,7 @@ class Game{
         GameState state;
         Map *map;
         Renderer *renderer;
+        CameraController *camera;
         bool WindowShouldCloseFlag;
 
         // Entities

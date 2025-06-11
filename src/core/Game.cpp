@@ -8,7 +8,8 @@ Game::Game(int width, int height, const char* title) {
     InitWindow(width, height, title);
     SetTargetFPS(60);
 
-    renderer = new Renderer(320, 240, width, height);
+    renderer = new Renderer(320*2, 240*2, width, height);
+    camera = new CameraController((float)GetScreenWidth(), (float)GetScreenHeight());
     map = new Map();  // Cria o mapa após InitWindow()!
     player = new Player({0.0f, 0.0f});
 
@@ -27,8 +28,9 @@ Game::Game(int width, int height, const char* title) {
 }
 
 Game::~Game(){
-    delete map;  // libera a memória alocada
     delete player;
+    delete map;
+    delete camera;
     delete renderer;
     CloseWindow();
 }
@@ -88,13 +90,18 @@ void Game::UpdatePlaying() {
     }  
     
     player->Update();
+    camera->Update(player->GetPosition(), map->GetWidth(), map->GetHeight(), map->GetTileWidth(), map->GetTileHeight());
+
+
 }
 
 void Game::DrawPlaying() {
     // DrawText("JOGO EM EXECUÇÃO", 280, 200, 30, DARKGREEN);
     // DrawText("Pressione P para pausar", 280, 250, 20, GRAY);
+    camera->Begin();
     map->Draw();
     player->Draw();
+    camera->End();
 }
 
 void Game::UpdatePaused() {
