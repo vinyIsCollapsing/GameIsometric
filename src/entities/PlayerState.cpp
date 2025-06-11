@@ -1,9 +1,10 @@
 #include <cstdio> // para printf[
 #include <cmath>
 
-#include "PlayerState.h"
-#include "Player.h"
 #include "raylib.h"
+
+#include "Player.h"
+#include "PlayerState.h"
 
 // Implementação de IdleState
 void IdleState::Update(Player* player) {

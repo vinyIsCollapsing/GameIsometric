@@ -1,6 +1,7 @@
-#include "Player.h"
-#include "PlayerState.h"
 #include "raylib.h"
+
+#include "entities/Player.h"
+#include "entities/PlayerState.h"
 #include "utils/IsometricUtils.h"
 
 Player::Player(Vector2 startPos){

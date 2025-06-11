@@ -1,4 +1,4 @@
-#include "../include/renderer/Renderer.h"
+#include "renderer/Renderer.h"
 
 Renderer::Renderer(int internalWidth, int internalHeight, int screenWidth, int screenHeight){
     this->screenWidth   = screenWidth;

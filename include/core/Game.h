@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Map.h"
-#include "Player.h"
+#include "world/Map.h"
+#include "entities/Player.h"
 #include "renderer/Renderer.h"
 
 enum class GameState {MENU, PLAYING, PAUSED};

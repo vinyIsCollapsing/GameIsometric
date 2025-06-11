@@ -1,7 +1,7 @@
 #include "raylib.h"
 
-#include "Game.h"
-#include "Map.h"
+#include "core/Game.h"
+#include "world/Map.h"
 
 // Constructors
 Game::Game(int width, int height, const char* title) {
