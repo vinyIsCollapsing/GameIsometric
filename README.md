@@ -1,13 +1,8 @@
-Claro! Abaixo está um exemplo de `README.md` bem estruturado para o seu projeto de jogo isométrico em C++ com Raylib, baseado na estrutura de diretórios e funcionalidades que você desenvolveu até agora:
-
----
-
-```markdown
 # Projeto de Jogo Isométrico em C++ com Raylib
 
 Este projeto é um protótipo de jogo isométrico desenvolvido em C++ utilizando a biblioteca [Raylib](https://www.raylib.com/). O objetivo é criar uma base sólida para jogos com visão isométrica, com foco em arquitetura de código bem estruturada, modularidade, e paradigmas modernos de desenvolvimento de jogos.
 
-## 🎮 Funcionalidades
+## Funcionalidades
 
 - Renderização de mapa com tiles isométricos
 - Player com sistema de estados (`Idle`, `Running`)
@@ -40,14 +35,14 @@ Este projeto é um protótipo de jogo isométrico desenvolvido em C++ utilizando
 
 ````
 
-## 🛠️ Requisitos
+## Requisitos
 
 - C++17 ou superior
 - [Raylib](https://github.com/raysan5/raylib) instalada
 - `cmake` para geração do build
 - Sistema compatível (testado em Linux)
 
-## 🚀 Compilação e Execução
+## Compilação e Execução
 
 Para compilar e rodar o jogo:
 
@@ -59,7 +54,7 @@ Esse script configura o `build/`, compila o projeto com `CMake`, e executa o bin
 
 > Dica: você pode ativar/desativar o menu inicial modificando a macro `SKIP_MENU` no código.
 
-## 🧠 Paradigmas e Arquitetura
+## Paradigmas e Arquitetura
 
 O projeto utiliza:
 
@@ -68,25 +63,10 @@ O projeto utiliza:
 * **Modularidade**: com separação lógica em pastas.
 * **Sistema de Câmera desacoplado**: a lógica da câmera está isolada do restante do jogo.
 
-## ✨ Possibilidades de Expansão
+## Possibilidades de Expansão
 
 * Sistema de colisão
 * Inventário ou sistema de blocos tipo Minecraft
 * IA simples para inimigos
 * Interação com o mundo (blocos dinâmicos, destruição, construção)
 * Som e música com `raylib` ou `miniaudio`
-
-## 📄 Licença
-
-Este projeto é desenvolvido para fins educacionais e acadêmicos. Sinta-se livre para reutilizar e expandir conforme necessário.
-
----
-
-Desenvolvido com 💡 e 🎮 por Vinicius Rocha
-
-```
-
----
-
-Se quiser, posso adaptar o `README.md` para português formal, francês ou incluir instruções específicas para Windows também. Deseja isso?
-```
