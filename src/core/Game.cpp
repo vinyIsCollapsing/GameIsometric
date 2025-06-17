@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "raymath.h"
 
 #include "core/Game.h"
 #include "world/Map.h"
@@ -97,6 +98,17 @@ void Game::UpdatePlaying() {
     }  
     
     player->Update();
+    float zoomChange = GetMouseWheelMove();  // rolagem positiva ou negativa
+    if (zoomChange != 0.0f) {
+        float currentZoom = camera->GetZoom();
+        float newZoom = currentZoom + zoomChange * 0.1f; // fator de sensibilidade
+
+        // Limita o zoom entre 0.5x e 3.0x
+        newZoom = Clamp(newZoom, 0.5f, 3.0f);
+
+        camera->SetZoom(newZoom);
+    }
+
     camera->Update(player->GetPosition(), map->GetWidth(), map->GetHeight());
 
 
