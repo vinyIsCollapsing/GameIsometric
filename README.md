@@ -31,6 +31,8 @@ Este projeto é um protótipo de jogo isométrico desenvolvido em C++ utilizando
 │   ├── renderer/
 │   ├── world/
 │   └── main.cpp           # Ponto de entrada do jogo
+├── external/
+|   └──glm/                # Header-only biblioteca para calculo de matriz
 ├── README.md              # Este arquivo
 
 ````

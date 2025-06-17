@@ -1,5 +1,6 @@
 #include "world/Map.h"
 #include "utils/IsometricUtils.h"
+#include <glm/glm.hpp>
 
 Map::Map() {
     img = LoadImage("../GameIsometric/assets/isometricblocks.png");
@@ -28,9 +29,12 @@ int Map::GetTileHeight() const { return tileHeight; }
 void Map::Draw() {
     Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
 
+    // Criamos a matriz uma única vez
+    glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
+
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            Vector2 isoPos = IsoToScreen({ (float)x, (float)y }, tileWidth, tileHeight);
+            Vector2 isoPos = IsoToScreen(isoMat, { (float)x, (float)y });
 
             isoPos.x += offset.x - (tileWidth / 2.0f);
             isoPos.y += offset.y;

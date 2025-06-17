@@ -1,23 +1,26 @@
-#ifndef CAMERA_CONTROLLER_H
-#define CAMERA_CONTROLLER_H
+#ifndef CORE_CAMERACONTROLLER_H
+#define CORE_CAMERACONTROLLER_H
 
 #include "raylib.h"
+#include <glm/glm.hpp>
 
-#include "utils/IsometricUtils.h"
+class CameraController {
+public:
+    CameraController(float screenWidth, float screenHeight, float tileWidth, float tileHeight);
+    ~CameraController();
 
-class CameraController{
-    private:
-        Camera2D camera;
-    public:
-        CameraController(float screenWidth, float screenHeight);
-        ~CameraController();
+    void Update(Vector2 playerPos, int mapWidth, int mapHeight);
+    void Begin();
+    void End();
 
-        void Update(Vector2 playerPos, int mapWidth, int mapHeight, int tileWidth, int tileHeight);
-        void Begin();
-        void End();
+    void SetZoom(float zoom);
+    float GetZoom() const;
 
-        void SetZoom(float zoom);
-        float GetZoom() const;
+private:
+    Camera2D camera;
+    glm::mat3 isoMat; // ← matriz isométrica armazenada
+    float tileWidth;
+    float tileHeight;
 };
 
 #endif

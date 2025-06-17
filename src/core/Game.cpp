@@ -9,10 +9,17 @@ Game::Game(int width, int height, const char* title) {
     SetTargetFPS(60);
 
     renderer = new Renderer(320*2, 240*2, width, height);
-    camera = new CameraController((float)GetScreenWidth(), (float)GetScreenHeight());
-    map = new Map();  // Cria o mapa após InitWindow()!
-    player = new Player({0.0f, 0.0f});
 
+    map = new Map();  // ← Cria o mapa primeiro!
+    
+    camera = new CameraController(
+        (float)GetScreenWidth(),
+        (float)GetScreenHeight(),
+        (float)map->GetTileWidth(),
+        (float)map->GetTileHeight()
+    );
+
+    player = new Player({0.0f, 0.0f});
     player->SetMapDimensions(
         map->GetWidth(),
         map->GetHeight(),
@@ -90,7 +97,7 @@ void Game::UpdatePlaying() {
     }  
     
     player->Update();
-    camera->Update(player->GetPosition(), map->GetWidth(), map->GetHeight(), map->GetTileWidth(), map->GetTileHeight());
+    camera->Update(player->GetPosition(), map->GetWidth(), map->GetHeight());
 
 
 }

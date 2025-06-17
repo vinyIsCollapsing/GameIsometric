@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include <glm/glm.hpp>
 
 #include "entities/Player.h"
 #include "entities/PlayerState.h"
@@ -23,10 +24,11 @@ void Player::Update() {
 
 void Player::Draw() {
     Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
+    
+    glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
+    Vector2 isoPos = IsoToScreen(isoMat, position);
 
-    Vector2 isoPos = IsoToScreen(position, (float)tileWidth, (float)tileHeight);
-
-    isoPos.x += offset.x - (tileWidth / 2.0f);
+    isoPos.x += offset.x - (tileWidth / 2.0f);  // centraliza o tile
     isoPos.y += offset.y;
 
     DrawRectangleV(isoPos, size, color);
