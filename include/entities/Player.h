@@ -7,6 +7,7 @@ class PlayerState;
 
 class Player{
     private:
+
         Vector2 position;
         Vector2 size;
         Color color;
@@ -17,6 +18,9 @@ class Player{
         int mapHeight;
         int tileWidth;
         int tileHeight;
+        
+        Texture2D texture;        // Textura do jogador
+        Rectangle sourceRect;     // Parte da imagem a ser desenhada
     public:
         Player(Vector2 startPos);
         ~Player();

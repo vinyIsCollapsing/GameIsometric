@@ -44,8 +44,8 @@ void RunningState::Update(Player* player) {
 
     // Ajuste apenas para diagonais
     if (moveDir.x != 0.0f && moveDir.y != 0.0f) {
-        moveDir.x /= 0.7071f;
-        moveDir.y /= 0.7071f;
+    //    moveDir.x /= 0.7071f;
+    //    moveDir.y /= 0.7071f;
     }
 
     // Calcular magnitude depois do ajuste

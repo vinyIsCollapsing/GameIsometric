@@ -10,10 +10,14 @@ Player::Player(Vector2 startPos){
     size = { 16.0f, 16.0f }; 
     color = BLUE;
      
+    texture = LoadTexture("assets/Player/player_idle.png");
+    sourceRect = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
+
     currentState = new IdleState();
 }
 
 Player::~Player() {
+    UnloadTexture(texture);
     delete currentState;
 }
 
@@ -24,14 +28,18 @@ void Player::Update() {
 
 void Player::Draw() {
     Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
-    
     glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
     Vector2 isoPos = IsoToScreen(isoMat, position);
 
-    isoPos.x += offset.x - (tileWidth / 2.0f);  // centraliza o tile
+    isoPos.x += offset.x - (tileWidth / 2.0f);
     isoPos.y += offset.y;
 
-    DrawRectangleV(isoPos, size, color);
+    Vector2 drawPos = {
+        isoPos.x - sourceRect.width / 2.0f,
+        isoPos.y - sourceRect.height
+    };
+
+    DrawTextureRec(texture, sourceRect, drawPos, WHITE);
 }
 
 void Player::ChangeState(PlayerState* newState) {
