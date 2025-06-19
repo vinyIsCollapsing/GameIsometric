@@ -26,15 +26,22 @@ int Map::GetHeight()     const { return mapHeight; }
 int Map::GetTileWidth()  const { return tileWidth; }
 int Map::GetTileHeight() const { return tileHeight; }
 
-void Map::Draw() {
-    Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
+Vector2 Map::GetCachedOffset() {
+    if (!offsetCalculated) {
+        cachedOffset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
+        offsetCalculated = true;
+    }
+    return cachedOffset;
+}
 
-    // Criamos a matriz uma única vez
-    glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
+void Map::Draw() {
+    Vector2 offset = GetCachedOffset();
+
+    glm::mat3 isoMat = GetIsometricMatrix(tileWidth, tileHeight);
 
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            Vector2 isoPos = IsoToScreen(isoMat, { (float)x, (float)y });
+            Vector2 isoPos = IsoToScreen(isoMat, {(float)x, (float)y});
 
             isoPos.x += offset.x - (tileWidth / 2.0f);
             isoPos.y += offset.y;

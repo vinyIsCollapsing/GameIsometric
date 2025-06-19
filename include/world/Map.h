@@ -8,13 +8,14 @@ class Map {
         Map();
         ~Map();
 
-        // Getters and Setters
         int GetWidth() const;
         int GetHeight() const;
         int GetTileWidth() const;
         int GetTileHeight() const;
 
+        Vector2 GetCachedOffset();  // Novo método para retornar o offset calculado uma vez
         void Draw();
+
     private:
         const int mapWidth = 10;
         const int mapHeight = 10;
@@ -24,6 +25,9 @@ class Map {
         Image img;
         Texture2D texture;
         Rectangle sourceRect;
+
+        Vector2 cachedOffset;  // Novo atributo para cache
+        bool offsetCalculated = false;  // Flag para checar se já foi calculado
 };
 
 #endif

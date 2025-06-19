@@ -1,19 +1,15 @@
-#include "raylib.h"
-#include <glm/glm.hpp>
-
 #include "entities/Player.h"
 #include "entities/PlayerState.h"
 #include "utils/IsometricUtils.h"
+#include <glm/glm.hpp>
 
-Player::Player(Vector2 startPos){
-    position = startPos; 
-    size = { 32.0f, 32.0f }; 
+Player::Player(Vector2 startPos, Map* gameMap) : map(gameMap) {
+    position = startPos;
+    size = {32.0f, 32.0f};
     color = BLUE;
-     
-    texture = LoadTexture("assets/Player/player_movement.png");
-    
-    // Inicializa olhando para o sul
-    sourceRect = { 0.0f, 0.0f, 32.0f, 32.0f };
+    texture = LoadTexture("../GameIsometric/assets/Player/player_movement.png");
+
+    sourceRect = {0.0f, 0.0f, 32.0f, 32.0f};
     currentDirection = SOUTH;
 
     currentState = new IdleState();
@@ -30,7 +26,7 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-    Vector2 offset = CalculateIsometricOffset(mapWidth, mapHeight, tileWidth, tileHeight);
+    Vector2 offset = map->GetCachedOffset();
     glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
     Vector2 isoPos = IsoToScreen(isoMat, position);
 
@@ -46,7 +42,7 @@ void Player::Draw() {
 }
 
 void Player::ChangeState(PlayerState* newState) {
-    delete currentState; // libera o antigo
+    delete currentState;
     currentState = newState;
 }
 
@@ -55,7 +51,7 @@ Vector2 Player::GetPosition() const {
 }
 
 void Player::SetPosition(Vector2 newPos){
-    this->position = newPos;
+    position = newPos;
 }
 
 void Player::SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight) {

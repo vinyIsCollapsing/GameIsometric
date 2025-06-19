@@ -7,14 +7,14 @@
 // Função auxiliar para determinar direção a partir de vetor
 Direction8 GetDirectionFromVector(Vector2 dir) {
     // direção isométrica → baseada em diagonais
-    if (dir.x > 0 && dir.y > 0)   return SOUTH;         // OK
-    if (dir.x > 0 && dir.y == 0)   return SOUTHEAST;    
-    if (dir.x > 0 && dir.y < 0)  return EAST;           // OK
-    if (dir.x == 0 && dir.y < 0)   return NORTHEAST;    // OK
-    if (dir.x < 0 && dir.y < 0)   return NORTH;         // OK
-    if (dir.x < 0 && dir.y == 0)  return NORTHWEST;     // OK
-    if (dir.x < 0 && dir.y > 0)  return WEST;           // OK
-    if (dir.x == 0 && dir.y > 0)  return SOUTHWEST;
+    if (dir.x > 0 && dir.y > 0)     return SOUTH;         // OK
+    if (dir.x > 0 && dir.y == 0)    return SOUTHEAST;    // OK
+    if (dir.x > 0 && dir.y < 0)     return EAST;           // OK
+    if (dir.x == 0 && dir.y < 0)    return NORTHEAST;    // OK
+    if (dir.x < 0 && dir.y < 0)     return NORTH;         // OK
+    if (dir.x < 0 && dir.y == 0)    return NORTHWEST;     // OK
+    if (dir.x < 0 && dir.y > 0)     return WEST;           // OK
+    if (dir.x == 0 && dir.y > 0)    return SOUTHWEST;     // OK
 
     return SOUTH; // parado ou sem direção definida
 }
@@ -66,16 +66,19 @@ void RunningState::Update(Player* player) {
         player->sourceRect.y = 0.0f;
 
         // Imprime a direção no terminal
-        switch (dir) {
-            case SOUTH:      printf("Movendo para: SUL\n"); break;
-            case SOUTHEAST:  printf("Movendo para: SUDESTE\n"); break;
-            case EAST:       printf("Movendo para: LESTE\n"); break;
-            case NORTHEAST:  printf("Movendo para: NORDESTE\n"); break;
-            case NORTH:      printf("Movendo para: NORTE\n"); break;
-            case NORTHWEST:  printf("Movendo para: NOROESTE\n"); break;
-            case WEST:       printf("Movendo para: OESTE\n"); break;
-            case SOUTHWEST:  printf("Movendo para: SUDOESTE\n"); break;
-}
+        if (dir != player->lastDirectionPrinted) {
+            switch (dir) {
+                case SOUTH:      printf("Movendo para: SUL\n"); break;
+                case SOUTHEAST:  printf("Movendo para: SUDESTE\n"); break;
+                case EAST:       printf("Movendo para: LESTE\n"); break;
+                case NORTHEAST:  printf("Movendo para: NORDESTE\n"); break;
+                case NORTH:      printf("Movendo para: NORTE\n"); break;
+                case NORTHWEST:  printf("Movendo para: NOROESTE\n"); break;
+                case WEST:       printf("Movendo para: OESTE\n"); break;
+                case SOUTHWEST:  printf("Movendo para: SUDOESTE\n"); break;
+            }
+            player->lastDirectionPrinted = dir;
+        }
 
     }
 

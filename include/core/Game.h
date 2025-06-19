@@ -16,14 +16,12 @@ class Game{
         void Run();
 
     private:
-        GameState state;
-        Map *map;
         Renderer *renderer;
         CameraController *camera;
-        bool WindowShouldCloseFlag;
-
-        // Entities
         Player* player;
+        Map *map;
+        GameState state;
+        bool WindowShouldCloseFlag;
         
         void Update();
         void Draw();

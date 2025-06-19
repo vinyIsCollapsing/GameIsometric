@@ -2,6 +2,7 @@
 #define ENTITIES_PLAYER_H
 
 #include "raylib.h"
+#include "world/Map.h"
 
 class PlayerState;
 
@@ -31,8 +32,10 @@ class Player{
         int tileHeight;
         
         Texture2D texture;        // Textura do jogador
+        Map* map;                 // Referência ao objeto Map para offset compartilhado
+
     public:
-        Player(Vector2 startPos);
+        Player(Vector2 startPos, Map* gameMap);
         ~Player();
 
         // Update player draw
@@ -44,13 +47,15 @@ class Player{
 
         // Getter and Setter
         Vector2 GetPosition() const;
-        void    SetPosition(Vector2 newPos);
+        void SetPosition(Vector2 newPos);
 
         void SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight);
         
         // Variáveis acessadas pelo estado
         Direction8 currentDirection;
         Rectangle sourceRect;
+        Direction8 lastDirectionPrinted = SOUTH;  // inicialização opcional
+
 };
 
 #endif

@@ -11,7 +11,8 @@ Game::Game(int width, int height, const char* title) {
 
     renderer = new Renderer(320*2, 240*2, width, height);
 
-    map = new Map();  // ← Cria o mapa primeiro!
+    map = new Map();
+
     
     camera = new CameraController(
         (float)GetScreenWidth(),
@@ -20,7 +21,7 @@ Game::Game(int width, int height, const char* title) {
         (float)map->GetTileHeight()
     );
 
-    player = new Player({0.0f, 0.0f});
+    player = new Player({5.0f, 5.0f}, map);
     player->SetMapDimensions(
         map->GetWidth(),
         map->GetHeight(),
