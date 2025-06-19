@@ -7,11 +7,14 @@
 
 Player::Player(Vector2 startPos){
     position = startPos; 
-    size = { 16.0f, 16.0f }; 
+    size = { 32.0f, 32.0f }; 
     color = BLUE;
      
-    texture = LoadTexture("assets/Player/player_idle.png");
-    sourceRect = { 0.0f, 0.0f, (float)texture.width, (float)texture.height };
+    texture = LoadTexture("assets/Player/player_movement.png");
+    
+    // Inicializa olhando para o sul
+    sourceRect = { 0.0f, 0.0f, 32.0f, 32.0f };
+    currentDirection = SOUTH;
 
     currentState = new IdleState();
 }

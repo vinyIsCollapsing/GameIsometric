@@ -5,6 +5,17 @@
 
 class PlayerState;
 
+enum Direction8 {
+    SOUTH = 0,
+    SOUTHEAST,
+    EAST,
+    NORTHEAST,
+    NORTH,
+    NORTHWEST,
+    WEST,
+    SOUTHWEST
+};
+
 class Player{
     private:
 
@@ -20,7 +31,6 @@ class Player{
         int tileHeight;
         
         Texture2D texture;        // Textura do jogador
-        Rectangle sourceRect;     // Parte da imagem a ser desenhada
     public:
         Player(Vector2 startPos);
         ~Player();
@@ -37,6 +47,10 @@ class Player{
         void    SetPosition(Vector2 newPos);
 
         void SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight);
+        
+        // Variáveis acessadas pelo estado
+        Direction8 currentDirection;
+        Rectangle sourceRect;
 };
 
 #endif

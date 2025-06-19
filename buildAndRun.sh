@@ -30,7 +30,7 @@ if [[ -f build/game ]]; then
     echo -e "${GREEN}Removendo arquivos intermediários...${RESET}"
 
     # Remove todos os arquivos de build, exceto o executável
-    find build -type f ! -name 'game' -delete
+    # find build -type f ! -name 'game' -delete
 
     echo -e "${YELLOW}Executando o jogo...${RESET}"
     ./build/game

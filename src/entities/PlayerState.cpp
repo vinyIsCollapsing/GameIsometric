@@ -1,23 +1,34 @@
-#include <cstdio> // para printf[
 #include <cmath>
-
+#include <iostream>
 #include "raylib.h"
-
 #include "Player.h"
 #include "PlayerState.h"
 
-// Implementação de IdleState
+// Função auxiliar para determinar direção a partir de vetor
+Direction8 GetDirectionFromVector(Vector2 dir) {
+    // direção isométrica → baseada em diagonais
+    if (dir.x > 0 && dir.y > 0)   return SOUTH;         // OK
+    if (dir.x > 0 && dir.y == 0)   return SOUTHEAST;    
+    if (dir.x > 0 && dir.y < 0)  return EAST;           // OK
+    if (dir.x == 0 && dir.y < 0)   return NORTHEAST;    // OK
+    if (dir.x < 0 && dir.y < 0)   return NORTH;         // OK
+    if (dir.x < 0 && dir.y == 0)  return NORTHWEST;     // OK
+    if (dir.x < 0 && dir.y > 0)  return WEST;           // OK
+    if (dir.x == 0 && dir.y > 0)  return SOUTHWEST;
+
+    return SOUTH; // parado ou sem direção definida
+}
+
+
+// IdleState
 void IdleState::Update(Player* player) {
-    // Se alguma tecla for pressionada, pode "mudar" para RunningState
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT) ||
         IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN)) {
-        // Exemplo: trocando de estado
         player->ChangeState(new RunningState());
     }
 }
 
-// Implementação de RunningState
-
+// RunningState
 void RunningState::Update(Player* player) {
     Vector2 moveDir = { 0.0f, 0.0f };
     float speed = 0.05f;
@@ -39,27 +50,38 @@ void RunningState::Update(Player* player) {
         moveDir.y += 1.0f;
     }
 
-    // Calcular magnitude antes do ajuste
-    // float magBefore = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
+    // Movimento
+    if (moveDir.x != 0.0f || moveDir.y != 0.0f) {
+        Vector2 pos = player->GetPosition();
+        pos.x += moveDir.x * speed;
+        pos.y += moveDir.y * speed;
+        player->SetPosition(pos);
 
-    // Ajuste apenas para diagonais
-    if (moveDir.x != 0.0f && moveDir.y != 0.0f) {
-    //    moveDir.x /= 0.7071f;
-    //    moveDir.y /= 0.7071f;
+        Direction8 dir = GetDirectionFromVector(moveDir);
+        player->currentDirection = dir;
+
+        // Atualiza o sprite
+        int spriteIndex = static_cast<int>(dir);
+        player->sourceRect.x = 32.0f * spriteIndex;
+        player->sourceRect.y = 0.0f;
+
+        // Imprime a direção no terminal
+        switch (dir) {
+            case SOUTH:      printf("Movendo para: SUL\n"); break;
+            case SOUTHEAST:  printf("Movendo para: SUDESTE\n"); break;
+            case EAST:       printf("Movendo para: LESTE\n"); break;
+            case NORTHEAST:  printf("Movendo para: NORDESTE\n"); break;
+            case NORTH:      printf("Movendo para: NORTE\n"); break;
+            case NORTHWEST:  printf("Movendo para: NOROESTE\n"); break;
+            case WEST:       printf("Movendo para: OESTE\n"); break;
+            case SOUTHWEST:  printf("Movendo para: SUDOESTE\n"); break;
+}
+
     }
 
-    // Calcular magnitude depois do ajuste
-    // float magAfter = sqrtf(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
-
-    // Debug: imprimir as magnitudes
-    // if (magBefore != 0){
-    //     printf("Magnitude antes: %.4f | depois: %.4f\n", magBefore, magAfter);
-    // }
-    
-
-    Vector2 pos = player->GetPosition();
-    pos.x += moveDir.x * speed;
-    pos.y += moveDir.y * speed;
-
-    player->SetPosition(pos);
+    // Voltar ao estado Idle se nenhuma tecla pressionada
+    if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN) &&
+        !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) {
+        player->ChangeState(new IdleState());
+    }
 }
