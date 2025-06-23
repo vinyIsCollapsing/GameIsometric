@@ -3,6 +3,12 @@
 
 #include "raylib.h"
 
+enum TileType {
+    TILE_DIRT,
+    TILE_DENSE_DIRT,
+    TILE_ROCK
+};
+
 class Map {
     public:
         Map();
@@ -17,17 +23,23 @@ class Map {
         void Draw();
 
     private:
-        const int mapWidth = 10;
-        const int mapHeight = 10;
+        static const int mapRadius = 16;
+        static const int mapWidth = mapRadius * 2 + 1;
+        static const int mapHeight = mapRadius * 2 + 1;
         const int tileWidth = 32;
         const int tileHeight = 32;
+
+        TileType tileMap[mapHeight][mapWidth];
 
         Image img;
         Texture2D texture;
         Rectangle sourceRect;
 
-        Vector2 cachedOffset;  // Novo atributo para cache
-        bool offsetCalculated = false;  // Flag para checar se já foi calculado
+        Vector2 cachedOffset;
+        bool offsetCalculated = false;
+
+        int ToIndex(int coord) const;
+        TileType GenerateTile(int x, int y) const;
 };
 
 #endif
