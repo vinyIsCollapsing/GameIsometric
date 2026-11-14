@@ -9,19 +9,17 @@ Game::Game(int width, int height, const char* title) {
     InitWindow(width, height, title);
     SetTargetFPS(60);
 
-    renderer = new Renderer(320*2, 240*2, width, height);
+    renderer    = std::make_unique<Renderer>(320*2, 240*2, width, height);
+    map         = std::make_unique<Map>();
 
-    map = new Map();
-
-    
-    camera = new CameraController(
+    camera = std::make_unique<CameraController>(
         (float)GetScreenWidth(),
         (float)GetScreenHeight(),
         (float)map->GetTileWidth(),
         (float)map->GetTileHeight()
     );
 
-    player = new Player({1.0f, 0.0f}, map);
+    player = std::make_unique<Player>(Vector2{1.0f, 0.0f}, map.get());
     player->SetMapDimensions(
         map->GetWidth(),
         map->GetHeight(),
@@ -37,10 +35,7 @@ Game::Game(int width, int height, const char* title) {
 }
 
 Game::~Game(){
-    delete player;
-    delete map;
-    delete camera;
-    delete renderer;
+    // unique_ptr automatically frees everything in the correct order
     CloseWindow();
 }
 
