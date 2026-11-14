@@ -1,39 +1,50 @@
 #!/bin/bash
 
-# Cores para destaque
+# Colors for output
 GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
 RED="\033[1;31m"
 RESET="\033[0m"
 
-echo -e "${YELLOW}Deseja pular o menu e ir direto para o jogo? (s/n)${RESET}"
+echo -e "${YELLOW}Skip the menu and start the game directly? (y/n)${RESET}"
 read -r SKIP_INPUT
 
-# Define flag para o CMake
-if [[ "$SKIP_INPUT" == "s" || "$SKIP_INPUT" == "S" ]]; then
+# Define CMake flag
+if [[ "$SKIP_INPUT" == "y" || "$SKIP_INPUT" == "Y" ]]; then
     SKIP_FLAG="-DSKIP_MENU=ON"
-    echo -e "${GREEN}Menu será pulado.${RESET}"
+    echo -e "${GREEN}Menu will be skipped.${RESET}"
 else
     SKIP_FLAG="-DSKIP_MENU=OFF"
-    echo -e "${GREEN}Menu será exibido normalmente.${RESET}"
+    echo -e "${GREEN}Menu will be displayed normally.${RESET}"
 fi
 
-# Cria o diretório build, se necessário
+# If build/ exists, remove it (prevents invalid CMake cache issues)
+if [[ -d build ]]; then
+    echo -e "${YELLOW}Cleaning old build directory...${RESET}"
+    rm -rf build
+fi
+
+# Create a fresh build directory
 mkdir -p build
 
-# Executa o CMake e compila
+echo -e "${YELLOW}Configuring project with CMake...${RESET}"
 cmake $SKIP_FLAG -Bbuild
+
+# If CMake configuration failed, stop here
+if [[ $? -ne 0 ]]; then
+    echo -e "${RED}CMake configuration failed. Aborting.${RESET}"
+    exit 1
+fi
+
+echo -e "${YELLOW}Building project...${RESET}"
 cmake --build build
 
-# Checa se o executável foi gerado
+# Check if the executable exists
 if [[ -f build/game ]]; then
-    echo -e "${GREEN}Removendo arquivos intermediários...${RESET}"
-
-    # Remove todos os arquivos de build, exceto o executável
-    # find build -type f ! -name 'game' -delete
-
-    echo -e "${YELLOW}Executando o jogo...${RESET}"
+    echo -e "${GREEN}Build succeeded!${RESET}"
+    echo -e "${YELLOW}Running the game...${RESET}"
     ./build/game
 else
-    echo -e "${RED}Erro: o binário não foi encontrado.${RESET}"
+    echo -e "${RED}Error: executable 'game' was not found.${RESET}"
+    exit 1
 fi

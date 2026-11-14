@@ -11,7 +11,7 @@ Este projeto é um protótipo de jogo isométrico desenvolvido em C++ utilizando
 - Separação em módulos: núcleo do jogo, renderização, entidades, utilitários, mundo
 - Estrutura de build automatizada com `CMake` e `buildAndRun.sh`
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 
