@@ -1,13 +1,16 @@
 #include "entities/Player.h"
 #include "entities/PlayerState.h"
 #include "utils/IsometricUtils.h"
+#include "utils/ResourcePath.h"
 #include <glm/glm.hpp>
 
 Player::Player(Vector2 startPos, Map* gameMap) : map(gameMap) {
     position = startPos;
     size = {32.0f, 32.0f};
     color = BLUE;
-    texture = LoadTexture("../GameIsometric/assets/Player/player_movement.png");
+    texture = LoadTexture(
+        ResourcePath("Player/player_movement.png").c_str()
+    );
 
     sourceRect = {0.0f, 0.0f, 32.0f, 32.0f};
     currentDirection = SOUTH;
