@@ -10,7 +10,7 @@ CameraController::CameraController(float screenWidth, float screenHeight, float 
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
-    // Cria matriz isométrica apenas uma vez
+    // Create an isometric matrix only once
     isoMat = GetIsometricMatrix(tileWidth, tileHeight);
 }
 

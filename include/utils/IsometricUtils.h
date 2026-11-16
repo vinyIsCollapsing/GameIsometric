@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 inline glm::mat3 GetIsometricMatrix(float tileWidth, float tileHeight) {
-    // Matriz de transformação isométrica (3x3)
+    // Isometric transformation matrix (3x3)
     return glm::mat3(
         tileWidth / 2.0f,  tileHeight / 4.0f, 0.0f,
        -tileWidth / 2.0f,  tileHeight / 4.0f, 0.0f,

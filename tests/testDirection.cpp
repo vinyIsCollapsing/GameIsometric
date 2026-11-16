@@ -2,11 +2,11 @@
 
 #include "raylib.h"
 #include "entities/Player.h"
-#include "entities/PlayerState.h"    // traz Direction8 + declaração de GetDirectionFromVector
+#include "entities/PlayerState.h"
 
 
-TEST_CASE("GetDirectionFromVector cobre as 8 direções isométricas") {
-    // Mapeamento conforme implementação atual em PlayerState.cpp
+TEST_CASE("GetDirectionFromVector covers the 8 isometric directions") {
+    // Mapping according to the current implementation in PlayerState.cpp
     REQUIRE(GetDirectionFromVector({ 1.0f,  0.0f}) == SOUTHEAST);
     REQUIRE(GetDirectionFromVector({ 0.0f, -1.0f}) == NORTHEAST);
     REQUIRE(GetDirectionFromVector({-1.0f,  0.0f}) == NORTHWEST);
@@ -18,11 +18,11 @@ TEST_CASE("GetDirectionFromVector cobre as 8 direções isométricas") {
     REQUIRE(GetDirectionFromVector({-1.0f,  1.0f}) == WEST);
 }
 
-TEST_CASE("GetDirectionFromVector cai em SOUTH quando não há direção") {
+TEST_CASE("GetDirectionFromVector returns SOUTH when there is no direction") {
     REQUIRE(GetDirectionFromVector({0.0f, 0.0f}) == SOUTH);
 }
 
-TEST_CASE("GetDirectionFromVector não confunde eixos cardeais") {
+TEST_CASE("GetDirectionFromVector does not confuse cardinal directions") {
     auto d1 = GetDirectionFromVector({ 1.0f,  0.0f});
     auto d2 = GetDirectionFromVector({ 0.0f, -1.0f});
     auto d3 = GetDirectionFromVector({-1.0f,  0.0f});

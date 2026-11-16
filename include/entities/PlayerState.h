@@ -6,7 +6,7 @@
 
 class Player;
 
-// Interface base de estados
+// Base state interface
 class PlayerState {
 public:
     virtual ~PlayerState() {}
@@ -15,13 +15,13 @@ public:
 
 Direction8 GetDirectionFromVector(Vector2 dir);
 
-// Estado ocioso
+// Idle state
 class IdleState : public PlayerState {
 public:
     void Update(Player* player) override;
 };
 
-// Estado em movimento
+// Running state
 class RunningState : public PlayerState {
 public:
     void Update(Player* player) override;

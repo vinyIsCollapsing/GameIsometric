@@ -53,21 +53,21 @@ void Game::Update(){
     }
 }
 void Game::Draw(){
-    // 1. Comece a desenhar no RenderTexture (resolução interna)
+    // 1. Start drawing to the RenderTexture (internal resolution)
     renderer->BeginUpscaleDraw();
 
     ClearBackground(RAYWHITE);
-    
+
     switch (state) {
         case GameState::MENU:    DrawMenu(); break;
         case GameState::PLAYING: DrawPlaying(); break;
         case GameState::PAUSED:  DrawPaused(); break;
     }
-    
-    // 2. Finalize o desenho interno
+
+    // 2. Finish the internal drawing
     renderer->EndUpscaleDraw();
 
-    // 3. Desenhe o RenderTexture ampliado na tela real
+    // 3. Draw the upscaled RenderTexture on the actual screen
     renderer->DrawUpscaled();
 }
 
@@ -78,22 +78,22 @@ void Game::UpdateMenu() {
 }
 
 void Game::DrawMenu() {
-    DrawText("MENU PRINCIPAL", 300, 200, 30, DARKBLUE);
-    DrawText("Pressione ENTER para jogar", 270, 250, 20, GRAY);
+    DrawText("MAIN MENU", 300, 200, 30, DARKBLUE);
+    DrawText("Press ENTER to play", 270, 250, 20, GRAY);
 }
 
 void Game::UpdatePlaying() {
     if (IsKeyPressed(KEY_P)) {
         state = GameState::PAUSED;
-    }  
-    
+    }
+
     player->Update();
-    float zoomChange = GetMouseWheelMove();  // rolagem positiva ou negativa
+    float zoomChange = GetMouseWheelMove();  // positive or negative scroll
     if (zoomChange != 0.0f) {
         float currentZoom = camera->GetZoom();
-        float newZoom = currentZoom + zoomChange * 0.1f; // fator de sensibilidade
+        float newZoom = currentZoom + zoomChange * 0.1f; // sensitivity factor
 
-        // Limita o zoom entre 0.5x e 3.0x
+        // Limits zoom between 0.5x and 3.0x
         newZoom = Clamp(newZoom, 0.5f, 3.0f);
 
         camera->SetZoom(newZoom);
@@ -105,8 +105,8 @@ void Game::UpdatePlaying() {
 }
 
 void Game::DrawPlaying() {
-    // DrawText("JOGO EM EXECUÇÃO", 280, 200, 30, DARKGREEN);
-    // DrawText("Pressione P para pausar", 280, 250, 20, GRAY);
+    // DrawText(“GAME IN PROGRESS”, 280, 200, 30, DARKGREEN);
+    // DrawText(“Press P to pause”, 280, 250, 20, GRAY);
     camera->Begin();
     map->Draw();
     player->Draw();
@@ -120,6 +120,6 @@ void Game::UpdatePaused() {
 }
 
 void Game::DrawPaused() {
-    DrawText("JOGO PAUSADO", 300, 200, 30, MAROON);
-    DrawText("Pressione P para continuar", 270, 250, 20, GRAY);
+    DrawText("GAME PAUSED", 300, 200, 30, MAROON);
+    DrawText("Press P to continue", 270, 250, 20, GRAY);
 }

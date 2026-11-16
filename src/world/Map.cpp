@@ -2,7 +2,7 @@
 #include "utils/IsometricUtils.h"
 #include "utils/ResourcePath.h"
 
-#include <ctime>  // para time()
+#include <ctime>
 
 Map::Map()
     : mapWidth(MapGenerator::SIZE),
@@ -15,7 +15,7 @@ Map::Map()
     generator->Generate();
 
     img = LoadImage(ResourcePath("isometricblocks.png").c_str());
-    // (aproveita para corrigir o caminho do asset também — bug residual do Passo 2)
+
     if (img.data == nullptr) {
         TraceLog(LOG_ERROR, "Error: Image not loaded");
     }

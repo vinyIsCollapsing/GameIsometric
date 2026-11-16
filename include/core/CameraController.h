@@ -18,7 +18,7 @@ public:
 
 private:
     Camera2D camera;
-    glm::mat3 isoMat; // ← matriz isométrica armazenada
+    glm::mat3 isoMat; // Stored isometric matrix
     float tileWidth;
     float tileHeight;
 };

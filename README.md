@@ -1,77 +1,126 @@
-# Projeto de Jogo Isométrico em C++ com Raylib
+# GameIsometric
 
-Este projeto é um protótipo de jogo isométrico desenvolvido em C++ utilizando a biblioteca [Raylib](https://www.raylib.com/). O objetivo é criar uma base sólida para jogos com visão isométrica, com foco em arquitetura de código bem estruturada, modularidade, e paradigmas modernos de desenvolvimento de jogos.
+A 2D isometric game prototype in C++17 with Raylib. It features a modular architecture, a state machine for the player, deterministic procedural generation, and unit tests.
 
-## Funcionalidades
+![Gameplay](docs/screenshots/gameplay.gif)
 
-- Renderização de mapa com tiles isométricos
-- Player com sistema de estados (`Idle`, `Running`)
-- Lógica de movimento em grade isométrica
-- Câmera que segue o jogador corretamente com ajuste de offset
-- Separação em módulos: núcleo do jogo, renderização, entidades, utilitários, mundo
-- Estrutura de build automatizada com `CMake` e `buildAndRun.sh`
+## Features
 
-## Estrutura do Projeto
+- Isometric rendering with internal-resolution upscaling (640×480 → window)
+- Player FSM (`Idle` / `Running`) with 8-direction sprite animation and grid movement
+- Camera that follows the player, with smooth zoom
+- Deterministic procedural map generation with neighbor-based smoothing
+- Main menu and pause screen
+- Unit tests with Catch2 covering isometric conversion, sprite directions, and map generation
 
-```
+## Stack
 
-.
-├── assets/                # Recursos gráficos (tiles, imagens, etc.)
-├── buildAndRun.sh         # Script para compilar e executar o projeto
-├── CMakeLists.txt         # Configuração do CMake
-├── include/               # Headers (.h)
-│   ├── core/              # Núcleo do jogo (Game, Câmera)
-│   ├── entities/          # Entidades do jogo (Player, Estados)
-│   ├── renderer/          # Lógica de renderização
-│   ├── utils/             # Utilitários gerais (isometria, etc.)
-│   └── world/             # Elementos do mundo (Map)
-├── src/                   # Implementações (.cpp)
-│   ├── core/
-│   ├── entities/
-│   ├── renderer/
-│   ├── world/
-│   └── main.cpp           # Ponto de entrada do jogo
-├── external/
-|   └──glm/                # Header-only biblioteca para calculo de matriz
-├── README.md              # Este arquivo
+| Layer | Technology |
+|---|---|
+| Language | C++17 |
+| Graphics | [Raylib](https://www.raylib.com/) |
+| Math | [GLM](https://github.com/g-truc/glm) (header-only, vendored) |
+| Build | CMake ≥ 3.16 |
+| Tests | [Catch2 v3](https://github.com/catchorg/Catch2) (via FetchContent) |
 
-````
+## Build & Run
 
-## Requisitos
+### Requirements
 
-- C++17 ou superior
-- [Raylib](https://github.com/raysan5/raylib) instalada
-- `cmake` para geração do build
-- Sistema compatível (testado em Linux)
+- CMake ≥ 3.16
+- A compiler with C++17 support (GCC 9+, Clang 10+, MSVC 2019+)
+- Git on PATH (only needed on the first build, for FetchContent)
 
-## Compilação e Execução
-
-Para compilar e rodar o jogo:
+### Linux / macOS
 
 ```bash
-./buildAndRun.sh
-````
+git clone https://github.com/vinyIsCollapsing/GameIsometric.git
+cd GameIsometric
+cmake -S . -B build
+cmake --build build
+./build/game
+```
 
-Esse script configura o `build/`, compila o projeto com `CMake`, e executa o binário gerado.
+If Raylib is installed on the system, CMake uses it. Otherwise, it downloads and compiles version 5.5 automatically on the first configuration.
 
-> Dica: você pode ativar/desativar o menu inicial modificando a macro `SKIP_MENU` no código.
+### Windows
 
-## Paradigmas e Arquitetura
+```powershell
+cmake -S . -B build
+cmake --build build --config Release
+.\build\Release\game.exe
+```
 
-O projeto utiliza:
+### Skipping the menu
 
-* **Programação Orientada a Objetos**: com classes para entidades e controle de estados.
-* **Finite State Machine (FSM)**: para controlar o comportamento do jogador.
-* **Modularidade**: com separação lógica em pastas.
-* **Sistema de Câmera desacoplado**: a lógica da câmera está isolada do restante do jogo.
+```bash
+cmake -S . -B build -DSKIP_MENU=ON
+```
 
-## Possibilidades de Expansão
+## Testing
 
-* Sistema de colisão
-* Inventário ou sistema de blocos tipo Minecraft
-* IA simples para inimigos
-* Interação com o mundo (blocos dinâmicos, destruição, construção)
-* Som e música com `raylib` ou `miniaudio`
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
 
-Observações
-1. GetDirectionFromVector: declarei no PlayerState.h, como ela é uma função auxiliar de PlayerState.cpp, faz mais sentido declarar ela no header correspondente. Apesar de Direction8 ser um enum de Player.h, o arquivo PlayerState.h importa o Player.h, herdando o enum
+To see detailed output for each test case:
+
+```bash
+./build/tests --reporter console
+```
+
+Current coverage: 13 test cases. `MapGenerator` has no Raylib dependency, so it can be tested without opening a graphics context.
+
+## Controls
+
+| Key | Action |
+|---|---|
+| Enter | Start game (from menu) |
+| P | Pause / resume |
+| ↑ ↓ ← → | Move the player (8 isometric directions) |
+| Mouse scroll | Camera zoom |
+| Esc | Quit |
+
+## Project Structure
+
+```
+GameIsometric/
+├── include/
+│   ├── core/        # Game loop, camera
+│   ├── entities/    # Player, FSM
+│   ├── renderer/    # Upscaling
+│   ├── utils/       # Isometric math, resource paths
+│   └── world/       # Map (rendering), MapGenerator (logic), TileType
+├── src/             # Implementations mirroring include/
+├── tests/           # Catch2 test cases
+├── external/glm/    # Vendored header-only dependency
+├── docs/screenshots/
+└── assets/          # Sprites and tiles
+```
+
+`MapGenerator` is a pure class with no Raylib dependency. It produces the tile array from a seed, while `Map` uses the generator and handles only rendering. This makes generation testable without a window, and the algorithm can be swapped without touching the renderer.
+
+## Architecture Decisions
+
+- **RAII everywhere:** graphics resources and game objects are managed by `std::unique_ptr`. No manual `new`/`delete` in the main loop.
+- **`Game` is non-copyable and non-movable:** it owns the window, a `RenderTexture`, and the game state, so duplicating it has no coherent meaning.
+- **Self-contained headers:** every header includes what it uses, verified by compiling each one in isolation (`g++ -fsyntax-only`).
+- **Logic / rendering separation:** `MapGenerator` knows nothing about Raylib, and `Map` knows nothing about generation logic.
+- **Build-time asset paths:** `ASSETS_PATH` is defined by CMake and embedded in the binary, so the executable runs from any working directory.
+- **Reproducible build:** Raylib is pinned to 5.5 via `FetchContent` (`GIT_TAG`, never `master`).
+
+## Roadmap
+
+- [x] Isometric rendering with upscaling
+- [x] Player FSM with 8 directions
+- [x] Camera with zoom
+- [x] Deterministic procedural generation
+- [x] Unit tests (Catch2)
+- [x] Reproducible build (FetchContent fallback)
+- [ ] Tile collision system
+- [ ] Pathfinding (A*)
+- [ ] Map loading from file
+- [ ] Simple map editor
+- [ ] Sound effects and music

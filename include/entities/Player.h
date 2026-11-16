@@ -19,20 +19,14 @@ enum Direction8 {
 
 class Player{
     private:
-
         Vector2 position;
         Vector2 size;
         Color color;
 
         PlayerState* currentState;
 
-        int mapWidth;
-        int mapHeight;
-        int tileWidth;
-        int tileHeight;
-        
-        Texture2D texture;        // Textura do jogador
-        Map* map;                 // Referência ao objeto Map para offset compartilhado
+        Texture2D texture;        // Player texture
+        Map* map;                 // Reference to the Map object for shared offset
 
     public:
         Player(Vector2 startPos, Map* gameMap);
@@ -48,14 +42,11 @@ class Player{
         // Getter and Setter
         Vector2 GetPosition() const;
         void SetPosition(Vector2 newPos);
-
-        void SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight);
         
         // Variáveis acessadas pelo estado
         Direction8 currentDirection;
         Rectangle sourceRect;
-        Direction8 lastDirectionPrinted = SOUTH;  // inicialização opcional
-
+        Direction8 lastDirectionPrinted = SOUTH;
 };
 
 #endif

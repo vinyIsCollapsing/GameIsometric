@@ -2,38 +2,34 @@
 
 #include "world/MapGenerator.h"
 
-TEST_CASE("ToIndex mapeia [-RADIUS, RADIUS] para [0, SIZE)") {
+TEST_CASE("ToIndex maps [-RADIUS, RADIUS] to [0, SIZE)") {
     REQUIRE(MapGenerator::ToIndex(-MapGenerator::RADIUS) == 0);
     REQUIRE(MapGenerator::ToIndex(0)                     == MapGenerator::RADIUS);
     REQUIRE(MapGenerator::ToIndex(MapGenerator::RADIUS)  == MapGenerator::SIZE - 1);
-}
-
-TEST_CASE("Mesma seed produz o mesmo mapa") {
+}maps
+TEST_CASE("The smae seed produces the same map") {
     MapGenerator a(12345);
     MapGenerator b(12345);
     a.Generate();
     b.Generate();
     REQUIRE(a.Tiles() == b.Tiles());
-}
-
-TEST_CASE("Seeds diferentes produzem mapas diferentes") {
+}maps
+TEST_CASE("Different seeds produce different maps") {
     MapGenerator a(1);
     MapGenerator b(2);
     a.Generate();
     b.Generate();
     REQUIRE(a.Tiles() != b.Tiles());
-}
-
-TEST_CASE("Get retorna TILE_DIRT fora da faixa") {
+}maps
+TEST_CASE("Get returns TILE_DIRT outside the range") {
     MapGenerator g(42);
     g.Generate();
     REQUIRE(g.Get(-MapGenerator::RADIUS - 1, 0) == TILE_DIRT);
     REQUIRE(g.Get( MapGenerator::RADIUS + 1, 0) == TILE_DIRT);
     REQUIRE(g.Get(0, -MapGenerator::RADIUS - 1) == TILE_DIRT);
     REQUIRE(g.Get(0,  MapGenerator::RADIUS + 1) == TILE_DIRT);
-}
-
-TEST_CASE("Região noroeste tem mais rocha que a sudeste") {
+}maps
+TEST_CASE("The northwest region has more rock than southeast") {
     MapGenerator g(12345);
     g.Generate();
 
@@ -47,9 +43,8 @@ TEST_CASE("Região noroeste tem mais rocha que a sudeste") {
             if (g.Get(x, y) == TILE_ROCK) ++rockSE;
 
     REQUIRE(rockNW > rockSE);
-}
-
-TEST_CASE("Reseed muda o mapa") {
+}maps
+TEST_CASE("Reseed changes the map") {
     MapGenerator g(1);
     g.Generate();
     const auto first = g.Tiles();

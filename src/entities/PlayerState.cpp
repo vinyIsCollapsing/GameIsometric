@@ -4,9 +4,9 @@
 #include "Player.h"
 #include "PlayerState.h"
 
-// Função auxiliar para determinar direção a partir de vetor
+// Helper function to determine direction from a vector
 Direction8 GetDirectionFromVector(Vector2 dir) {
-    // direção isométrica → baseada em diagonais
+    // Isometric direction: based on diagonals
     if (dir.x > 0 && dir.y > 0)     return SOUTH;         // OK
     if (dir.x > 0 && dir.y == 0)    return SOUTHEAST;    // OK
     if (dir.x > 0 && dir.y < 0)     return EAST;           // OK
@@ -16,7 +16,7 @@ Direction8 GetDirectionFromVector(Vector2 dir) {
     if (dir.x < 0 && dir.y > 0)     return WEST;           // OK
     if (dir.x == 0 && dir.y > 0)    return SOUTHWEST;     // OK
 
-    return SOUTH; // parado ou sem direção definida
+    return SOUTH; // stationary or no defined direction
 }
 
 
@@ -50,7 +50,7 @@ void RunningState::Update(Player* player) {
         moveDir.y += 1.0f;
     }
 
-    // Movimento
+    // Movement
     if (moveDir.x != 0.0f || moveDir.y != 0.0f) {
         Vector2 pos = player->GetPosition();
         pos.x += moveDir.x * speed;
@@ -60,29 +60,29 @@ void RunningState::Update(Player* player) {
         Direction8 dir = GetDirectionFromVector(moveDir);
         player->currentDirection = dir;
 
-        // Atualiza o sprite
+        // Updates the sprite
         int spriteIndex = static_cast<int>(dir);
         player->sourceRect.x = 32.0f * spriteIndex;
         player->sourceRect.y = 0.0f;
 
-        // Imprime a direção no terminal
+        // Prints the direction to the terminal
         if (dir != player->lastDirectionPrinted) {
             switch (dir) {
-                case SOUTH:      printf("Movendo para: SUL\n"); break;
-                case SOUTHEAST:  printf("Movendo para: SUDESTE\n"); break;
-                case EAST:       printf("Movendo para: LESTE\n"); break;
-                case NORTHEAST:  printf("Movendo para: NORDESTE\n"); break;
-                case NORTH:      printf("Movendo para: NORTE\n"); break;
-                case NORTHWEST:  printf("Movendo para: NOROESTE\n"); break;
-                case WEST:       printf("Movendo para: OESTE\n"); break;
-                case SOUTHWEST:  printf("Movendo para: SUDOESTE\n"); break;
+                case SOUTH:      printf("Moving to: SOUTH\n"); break;
+                case SOUTHEAST:  printf("Moving to: SOUTHEAST\n"); break;
+                case EAST:       printf("Moving to: EAST\n"); break;
+                case NORTHEAST:  printf("Moving to: NORTHEAST\n"); break;
+                case NORTH:      printf("Moving to: NORTH\n"); break;
+                case NORTHWEST:  printf("Moving to: NORTHWEST\n"); break;
+                case WEST:       printf("Moving to: WEST\n"); break;
+                case SOUTHWEST:  printf("Moving to: SOUTHWEST\n"); break;
             }
             player->lastDirectionPrinted = dir;
         }
 
     }
 
-    // Voltar ao estado Idle se nenhuma tecla pressionada
+    // Return to the Idle state if no key is pressed
     if (!IsKeyDown(KEY_UP) && !IsKeyDown(KEY_DOWN) &&
         !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT)) {
         player->ChangeState(new IdleState());
