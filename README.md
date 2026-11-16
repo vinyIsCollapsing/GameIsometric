@@ -72,3 +72,6 @@ O projeto utiliza:
 * IA simples para inimigos
 * Interação com o mundo (blocos dinâmicos, destruição, construção)
 * Som e música com `raylib` ou `miniaudio`
+
+Observações
+1. GetDirectionFromVector: declarei no PlayerState.h, como ela é uma função auxiliar de PlayerState.cpp, faz mais sentido declarar ela no header correspondente. Apesar de Direction8 ser um enum de Player.h, o arquivo PlayerState.h importa o Player.h, herdando o enum
