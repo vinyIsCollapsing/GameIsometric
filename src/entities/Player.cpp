@@ -1,8 +1,6 @@
 #include "entities/Player.h"
 #include "entities/PlayerState.h"
-#include "utils/IsometricUtils.h"
 #include "utils/ResourcePath.h"
-#include <glm/glm.hpp>
 
 Player::Player(Vector2 startPos, Map* gameMap) : map(gameMap) {
     position = startPos;
@@ -29,18 +27,11 @@ void Player::Update() {
 }
 
 void Player::Draw() {
-    Vector2 offset = map->GetCachedOffset();
-    glm::mat3 isoMat = GetIsometricMatrix((float)tileWidth, (float)tileHeight);
-    Vector2 isoPos = IsoToScreen(isoMat, position);
-
-    isoPos.x += offset.x - (tileWidth / 2.0f);
-    isoPos.y += offset.y;
-
-    Vector2 drawPos = {
-        isoPos.x - sourceRect.width / 2.0f,
+    const Vector2 isoPos = map->GridToScreen(position);
+    const Vector2 drawPos = {
+        isoPos.x - sourceRect.width  / 2.0f,
         isoPos.y - sourceRect.height
     };
-
     DrawTextureRec(texture, sourceRect, drawPos, WHITE);
 }
 
@@ -55,11 +46,4 @@ Vector2 Player::GetPosition() const {
 
 void Player::SetPosition(Vector2 newPos){
     position = newPos;
-}
-
-void Player::SetMapDimensions(int mapWidth, int mapHeight, int tileWidth, int tileHeight) {
-    this->mapWidth = mapWidth;
-    this->mapHeight = mapHeight;
-    this->tileWidth = tileWidth;
-    this->tileHeight = tileHeight;
 }

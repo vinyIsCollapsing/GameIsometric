@@ -17,15 +17,22 @@ include_directories(
 )
 
 # --- Raylib ---
-if(WIN32)
-    message("Compilando para Windows")
-    include_directories("C:/raylib/include")
-    link_directories("C:/raylib/lib")
-    set(RAYLIB_LIBS raylib winmm gdi32 opengl32)
-elseif(UNIX)
-    message("Compilando para Linux")
-    find_package(raylib REQUIRED)
-    set(RAYLIB_LIBS raylib m pthread dl rt X11)
+find_package(raylib QUIET)
+
+if(NOT raylib_FOUND)
+    message(STATUS "Raylib não encontrada no sistema — baixando via FetchContent")
+    include(FetchContent)
+
+    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
+
+    FetchContent_Declare(
+        raylib
+        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+        GIT_TAG        5.5          
+        GIT_SHALLOW    TRUE
+    )
+    FetchContent_MakeAvailable(raylib)
 endif()
 
 # --- game_core: tudo exceto main.cpp ---
@@ -33,7 +40,7 @@ file(GLOB_RECURSE GAME_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 list(FILTER GAME_SOURCES EXCLUDE REGEX "/main\\.cpp$")
 
 add_library(game_core STATIC ${GAME_SOURCES})
-target_link_libraries(game_core PUBLIC ${RAYLIB_LIBS})
+target_link_libraries(game_core PUBLIC raylib)
 
 # --- Opção SKIP_MENU (agora afeta o game_core) ---
 option(SKIP_MENU "Pula o menu e vai direto para o jogo" OFF)
@@ -43,7 +50,7 @@ endif()
 
 # --- Executável principal ---
 add_executable(game ${CMAKE_SOURCE_DIR}/src/main.cpp)
-target_link_libraries(game PRIVATE game_core ${RAYLIB_LIBS})
+target_link_libraries(game PRIVATE game_core)
 
 # --- Testes ---
 option(BUILD_TESTS "Compilar testes unitários" ON)
@@ -57,10 +64,8 @@ if(BUILD_TESTS)
     FetchContent_MakeAvailable(Catch2)
 
     enable_testing()
-    add_executable(tests
-        ${CMAKE_SOURCE_DIR}/tests/testIsometric.cpp
-        ${CMAKE_SOURCE_DIR}/tests/testDirection.cpp
-    )
+    file(GLOB TEST_SOURCES ${CMAKE_SOURCE_DIR}/tests/*.cpp)
+    add_executable(tests ${TEST_SOURCES})
     target_link_libraries(tests PRIVATE game_core Catch2::Catch2WithMain)
     add_test(NAME unit_tests COMMAND tests)
 endif()

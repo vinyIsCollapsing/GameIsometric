@@ -20,12 +20,6 @@ Game::Game(int width, int height, const char* title) {
     );
 
     player = std::make_unique<Player>(Vector2{1.0f, 0.0f}, map.get());
-    player->SetMapDimensions(
-        map->GetWidth(),
-        map->GetHeight(),
-        map->GetTileWidth(),
-        map->GetTileHeight()
-    );
 
     #ifdef SKIP_MENU
         state = GameState::PLAYING;
@@ -105,7 +99,7 @@ void Game::UpdatePlaying() {
         camera->SetZoom(newZoom);
     }
 
-    camera->Update(player->GetPosition(), map->GetWidth(), map->GetHeight());
+    camera->Update(player->GetPosition(), map->GetMapWidth(), map->GetMapHeight());
 
 
 }
