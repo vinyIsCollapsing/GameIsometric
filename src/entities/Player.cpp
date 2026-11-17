@@ -1,5 +1,6 @@
 #include "entities/Player.h"
 #include "entities/PlayerState.h"
+#include "utils/Collision.h"
 #include "utils/ResourcePath.h"
 
 Player::Player(Vector2 startPos, Map* gameMap) : map(gameMap) {
@@ -21,9 +22,8 @@ Player::~Player() {
     delete currentState;
 }
 
-void Player::Update() {
-    if (currentState)
-        currentState->Update(this);
+void Player::Update(float dt) {
+    if (currentState) currentState->Update(this, dt);
 }
 
 void Player::Draw() {
@@ -33,6 +33,12 @@ void Player::Draw() {
         isoPos.y - sourceRect.height
     };
     DrawTextureRec(texture, sourceRect, drawPos, WHITE);
+}
+
+void Player::TryMove(Vector2 delta) {
+    position = Collision::TryMove(position, delta, [this](int x, int y) {
+        return map->IsWalkable(x, y);
+    });
 }
 
 void Player::ChangeState(PlayerState* newState) {

@@ -33,10 +33,11 @@ class Player{
         ~Player();
 
         // Update player draw
-        void Update();
+        void Update(float dt);
         void Draw();
 
         // Change state of player
+        void TryMove(Vector2 delta);
         void ChangeState(PlayerState* newState);
 
         // Getter and Setter

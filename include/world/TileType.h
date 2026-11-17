@@ -8,4 +8,6 @@ enum TileType {
     TILE_COUNT
 };
 
+// Only rule (for now) to block movement
+inline bool IsSolid(TileType t){ return t == TILE_ROCK; }
 #endif

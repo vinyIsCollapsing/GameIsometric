@@ -85,22 +85,27 @@ void Game::DrawMenu() {
 void Game::UpdatePlaying() {
     if (IsKeyPressed(KEY_P)) {
         state = GameState::PAUSED;
+        return;
     }
 
-    player->Update();
-    float zoomChange = GetMouseWheelMove();  // positive or negative scroll
+    // Clamp: if the game is minimized or paused, GetFrameTime() may return a large value.
+    // 0.1s = 100ms prevents “teleportation” when resuming
+    float dt = GetFrameTime();
+    if (dt > 0.1f) dt = 0.1f;
+
+    player->Update(dt);
+
+    const float zoomChange = GetMouseWheelMove();  // positive or negative scroll
     if (zoomChange != 0.0f) {
-        float currentZoom = camera->GetZoom();
+        const float currentZoom = camera->GetZoom();
         float newZoom = currentZoom + zoomChange * 0.1f; // sensitivity factor
 
         // Limits zoom between 0.5x and 3.0x
         newZoom = Clamp(newZoom, 0.5f, 3.0f);
-
         camera->SetZoom(newZoom);
     }
 
     camera->Update(player->GetPosition(), map->GetMapWidth(), map->GetMapHeight());
-
 
 }
 

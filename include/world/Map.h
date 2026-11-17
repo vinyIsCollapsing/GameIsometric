@@ -21,6 +21,8 @@ public:
     // Consolidates the formula that was previously duplicated in 
     Vector2 GridToScreen(Vector2 gridPos) const;
 
+    bool IsWalkable(int x, int y) const;
+
     void Draw();                // Draw map
 
 private:

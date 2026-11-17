@@ -22,9 +22,12 @@ public:
 
     TileType Get(int x, int y) const;               // Retrives a tile based on grid coordinates. Coordinates outside [-RADIUS, RADIUS return TILE_DIRT]
 
+    bool IsSolidAt(int x, int y) const;             // true if is solid 
+
     const std::array<TileType, TOTAL_TILES>& Tiles() const {return tiles;}      // Direct access to data for the Map to draw
 
     std::uint32_t Seed() const { return seed; }
+    
 private:
     std::uint32_t seed;
     std::array<TileType, TOTAL_TILES> tiles;

@@ -40,6 +40,10 @@ TileType MapGenerator::Get(int x, int y) const {
     return GetRaw(x, y);
 }
 
+bool MapGenerator::IsSolidAt(int x, int y) const{
+    return IsSolid(Get(x, y));
+}
+
 TileType MapGenerator::GetRaw(int x, int y) const {
     return tiles[ToIndex(y) * SIZE + ToIndex(x)];
 }

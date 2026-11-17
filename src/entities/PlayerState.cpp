@@ -21,7 +21,7 @@ Direction8 GetDirectionFromVector(Vector2 dir) {
 
 
 // IdleState
-void IdleState::Update(Player* player) {
+void IdleState::Update(Player* player, float) {
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT) ||
         IsKeyDown(KEY_UP) || IsKeyDown(KEY_DOWN)) {
         player->ChangeState(new RunningState());
@@ -29,9 +29,9 @@ void IdleState::Update(Player* player) {
 }
 
 // RunningState
-void RunningState::Update(Player* player) {
+void RunningState::Update(Player* player, float dt) {
+    constexpr float SPEED = 3.0f;
     Vector2 moveDir = { 0.0f, 0.0f };
-    float speed = 0.05f;
 
     if (IsKeyDown(KEY_UP)) {
         moveDir.x -= 1.0f;
@@ -52,16 +52,17 @@ void RunningState::Update(Player* player) {
 
     // Movement
     if (moveDir.x != 0.0f || moveDir.y != 0.0f) {
-        Vector2 pos = player->GetPosition();
-        pos.x += moveDir.x * speed;
-        pos.y += moveDir.y * speed;
-        player->SetPosition(pos);
+        const Vector2 delta{
+            moveDir.x * SPEED * dt,
+            moveDir.y * SPEED * dt
+        };
+        player->TryMove(delta);
 
-        Direction8 dir = GetDirectionFromVector(moveDir);
+        const Direction8 dir = GetDirectionFromVector(moveDir);
         player->currentDirection = dir;
 
         // Updates the sprite
-        int spriteIndex = static_cast<int>(dir);
+        const int spriteIndex = static_cast<int>(dir);
         player->sourceRect.x = 32.0f * spriteIndex;
         player->sourceRect.y = 0.0f;
 

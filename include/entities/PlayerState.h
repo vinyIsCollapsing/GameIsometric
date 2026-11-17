@@ -10,7 +10,7 @@ class Player;
 class PlayerState {
 public:
     virtual ~PlayerState() {}
-    virtual void Update(Player* player) = 0;
+    virtual void Update(Player* player, float dt) = 0;
 };
 
 Direction8 GetDirectionFromVector(Vector2 dir);
@@ -18,13 +18,13 @@ Direction8 GetDirectionFromVector(Vector2 dir);
 // Idle state
 class IdleState : public PlayerState {
 public:
-    void Update(Player* player) override;
+    void Update(Player* player, float dt) override;
 };
 
 // Running state
 class RunningState : public PlayerState {
 public:
-    void Update(Player* player) override;
+    void Update(Player* player, float dt) override;
 };
 
 #endif // PLAYERSTATE_H

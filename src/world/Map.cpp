@@ -51,6 +51,10 @@ Vector2 Map::GridToScreen(Vector2 gridPos) const {
     return isoPos;
 }
 
+bool Map::IsWalkable(int x, int y) const {
+    return !generator->IsSolidAt(x, y);
+}
+
 void Map::Draw() {
     for (int y = -MapGenerator::RADIUS; y <= MapGenerator::RADIUS; ++y) {
         for (int x = -MapGenerator::RADIUS; x <= MapGenerator::RADIUS; ++x) {
