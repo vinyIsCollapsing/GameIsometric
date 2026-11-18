@@ -4,16 +4,37 @@
 
 #include <ctime>
 
-Map::Map()
-    : mapWidth(MapGenerator::SIZE),
-      mapHeight(MapGenerator::SIZE)
-{
-    auto seed = static_cast<std::uint32_t>(time(NULL));
+Map::Map(){
+    auto seed = static_cast<std::uint32_t>(time(nullptr));
     TraceLog(LOG_INFO, TextFormat("Seed used to generate the map: %u", seed));
 
     generator = std::make_unique<MapGenerator>(seed);
     generator->Generate();
 
+    mapWidth  = generator->GetWidth();
+    mapHeight = generator->GetHeight();
+
+    LoadTileTexture();
+}
+
+Map::Map(const std::string& mapPath){
+    auto seed = static_cast<std::uint32_t>(time(nullptr));
+    generator = std::make_unique<MapGenerator>(seed);
+
+    if (generator->LoadFromFile(mapPath)) {
+        TraceLog(LOG_INFO, TextFormat("Map loaded from '%s'", mapPath.c_str()));
+    } else {
+        TraceLog(LOG_WARNING, "Error to load map; using procedural");
+        generator->Generate();
+    }
+
+    mapWidth  = generator->GetWidth();
+    mapHeight = generator->GetHeight();
+
+    LoadTileTexture();
+}
+
+void Map::LoadTileTexture(){
     img = LoadImage(ResourcePath("isometricblocks.png").c_str());
 
     if (img.data == nullptr) {
@@ -56,8 +77,11 @@ bool Map::IsWalkable(int x, int y) const {
 }
 
 void Map::Draw() {
-    for (int y = -MapGenerator::RADIUS; y <= MapGenerator::RADIUS; ++y) {
-        for (int x = -MapGenerator::RADIUS; x <= MapGenerator::RADIUS; ++x) {
+    const int halfW = mapWidth  / 2;
+    const int halfH = mapHeight / 2;
+
+    for (int y = -halfH; y <= halfH; ++y) {
+        for (int x = -halfW; x <= halfW; ++x) {
             const Vector2 isoPos = GridToScreen({ (float)x, (float)y });
 
             const TileType tile = generator->Get(x, y);

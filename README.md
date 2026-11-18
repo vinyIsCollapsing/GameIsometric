@@ -124,6 +124,6 @@ GameIsometric/
 - [x] Tile collision system
 - [ ] Collision with footprint (box instead of point) for visual polish
 - [ ] Pathfinding (A*)
-- [ ] Map loading from file
+- [x] Map loading from file
 - [ ] Simple map editor
 - [ ] Sound effects and music

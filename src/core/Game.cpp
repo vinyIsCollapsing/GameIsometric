@@ -2,6 +2,7 @@
 #include "raymath.h"
 
 #include "core/Game.h"
+#include "utils/ResourcePath.h"
 #include "world/Map.h"
 
 // Constructors
@@ -10,7 +11,9 @@ Game::Game(int width, int height, const char* title) {
     SetTargetFPS(60);
 
     renderer    = std::make_unique<Renderer>(320*2, 240*2, width, height);
-    map         = std::make_unique<Map>();
+    // Attempts to load a specific map, if it fails, we use the default (procedural) version
+    const std::string mapPath = ResourcePath("maps/level1.map");
+    map = std::make_unique<Map>(mapPath);
 
     camera = std::make_unique<CameraController>(
         (float)GetScreenWidth(),

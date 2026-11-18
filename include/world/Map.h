@@ -2,13 +2,15 @@
 #define MAP_H
 
 #include <memory>
+#include <string>
 
 #include "raylib.h"
-#include "MapGenerator.h"
+#include "world/MapGenerator.h"
 
 class Map {
 public:
-    Map();
+    Map();                                      // Procedural constructor
+    explicit Map(const std::string& mapPath);   // File constructor
     ~Map();
 
     int GetMapWidth() const;
@@ -20,18 +22,18 @@ public:
     // already including the map's center offset.
     // Consolidates the formula that was previously duplicated in 
     Vector2 GridToScreen(Vector2 gridPos) const;
-
     bool IsWalkable(int x, int y) const;
 
     void Draw();                // Draw map
 
 private:
+    void LoadTileTexture();
     Vector2 GetCachedOffset() const;
 
     std::unique_ptr<MapGenerator> generator;
     
-    const int mapWidth;
-    const int mapHeight;
+    int mapWidth = 0;
+    int mapHeight = 0;
     const int tileWidth = 32;
     const int tileHeight = 32;
 
