@@ -12,6 +12,7 @@ A 2D isometric game prototype in C++17 with Raylib. It features a modular archit
 - Deterministic procedural map generation with neighbor-based smoothing
 - Main menu and pause screen
 - Unit tests with Catch2 covering isometric conversion, sprite directions, and map generation
+- Collision with tiles, sliding movement along walls and delta time
 
 ## Stack
 
@@ -110,6 +111,7 @@ GameIsometric/
 - **Logic / rendering separation:** `MapGenerator` knows nothing about Raylib, and `Map` knows nothing about generation logic.
 - **Build-time asset paths:** `ASSETS_PATH` is defined by CMake and embedded in the binary, so the executable runs from any working directory.
 - **Reproducible build:** Raylib is pinned to 5.5 via `FetchContent` (`GIT_TAG`, never `master`).
+- **Pure, testable collision logic**: `Collision::TryMove` takes an `isWalkable` function as a parameter, without depending on `Player`, `Map`, or raylib. This allows you to test sliding, edges, and complete blocking without opening a graphics context.
 
 ## Roadmap
 
@@ -119,7 +121,8 @@ GameIsometric/
 - [x] Deterministic procedural generation
 - [x] Unit tests (Catch2)
 - [x] Reproducible build (FetchContent fallback)
-- [ ] Tile collision system
+- [x] Tile collision system
+- [ ] Collision with footprint (box instead of point) for visual polish
 - [ ] Pathfinding (A*)
 - [ ] Map loading from file
 - [ ] Simple map editor

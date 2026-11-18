@@ -27,10 +27,11 @@ void Player::Update(float dt) {
 }
 
 void Player::Draw() {
-    const Vector2 isoPos = map->GridToScreen(position);
+    const Vector2 tileTopLeft = map->GridToScreen(position);
+    
     const Vector2 drawPos = {
-        isoPos.x - sourceRect.width  / 2.0f,
-        isoPos.y - sourceRect.height
+        tileTopLeft.x + map->GetTileWidth() / 2.0f - sourceRect.width  / 2.0f,
+        tileTopLeft.y + map->GetTileHeight() / 2.0f - sourceRect.height
     };
     DrawTextureRec(texture, sourceRect, drawPos, WHITE);
 }

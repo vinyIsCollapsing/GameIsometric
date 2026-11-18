@@ -47,7 +47,7 @@ Vector2 Map::GridToScreen(Vector2 gridPos) const {
 
     const Vector2 offset = GetCachedOffset();
     isoPos.x += offset.x - (tileWidth / 2.0f);
-    isoPos.y += offset.y;
+    isoPos.y += offset.y - (tileHeight / 2.0f);
     return isoPos;
 }
 
